@@ -1,0 +1,28 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Custom Anchor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../src/node_modules/document-register-element/build/document-register-element.js"></script>
+    <script>
+        class CustomAnchor extends HTMLAnchorElement {
+            connectedCallback() {
+                this.addEventListener("click", e => {
+                    e.preventDefault();
+                    const result = confirm("Are you sure?");
+                    if (result){
+                        window.location.href = e.target.href;
+                    }
+                });
+            }
+        }
+        window.customElements.define('custom-anchor', CustomAnchor, { extends: "a"});
+    </script>
+
+</head>
+<body>
+    <a is="custom-anchor" href="http://www.google.com/">Go to Google</a>
+</body>
+</html>

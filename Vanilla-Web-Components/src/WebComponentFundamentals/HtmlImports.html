@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Imports</title>
+    <link rel="import" href="./HtmlToBeImported.html" id="importHtml" />
+</head>
+<body>
+    <script>
+        const $link = document.getElementById("importHtml");
+        const content = $link.import.querySelector(".import-frame");
+        document.body.appendChild(content.cloneNode(true));
+    </script>
+</body>
+</html>

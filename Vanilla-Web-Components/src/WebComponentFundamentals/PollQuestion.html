@@ -1,0 +1,35 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Poll Question</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+    <link rel="stylesheet" href="../libs/bootstrap-v3.3.7/css/bootstrap.min.css">
+    <script src="../libs/bootstrap-v3.3.7/js/bootstrap.min.js"></script>   
+    <script src="./js/PollQuestion.js"></script>
+    <link rel="stylesheet" href="../css/codeSample.css">
+</head>
+<body>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="col-sm-6 col-sm-offset-3">
+                <poll-question></poll-question>
+            </div>
+        </div>
+    </div>  
+    <div class="container console-log-container">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="console-log"> 
+                <p><samp>var $poll = document.querySelector("Poll-Question");</samp></p> 
+                <p><samp>$poll.pollData = {
+                        "question": "What is your favorite movie?",
+                        "answers" : ["Star Wars", "Space Balls"]
+                    };</samp></p> 
+                <p><samp>$poll.selectedAnswer = 1;</samp></p> 
+            </div>
+        </div>  
+    </div>
+</body>
+</html>

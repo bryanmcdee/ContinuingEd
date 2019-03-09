@@ -1,0 +1,40 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My First Custom Element</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        class MyFirstCustomElement extends HTMLElement {
+            constructor(){
+                super();
+                console.log("My Custom Element is constructed!");
+            }
+            connectedCallback(){
+                console.log("My Custom Element has been added to the DOM!");
+            }
+            static get observedAttributes() {
+                // Right now we will only subject to changes in the 'demo' attribute.
+                return ['demo'];
+            }
+            attributeChangedCallback(name, oldValue, newValue) {
+                // allows us to subscribe to changes in attributes on the element instance.
+                console.log("Attribute changed!", name, oldValue, newValue);
+            }
+            disconnectedCallback() {
+                console.log("My Custom Element was removed from the DOM!");
+            }
+        }
+        window.customElements.define("my-first-custom-element", MyFirstCustomElement);
+    </script>
+</head>
+<body>
+    <script>
+        let $customElement = document.createElement("my-first-custom-element");
+        setTimeout(() => {
+            document.body.appendChild($customElement);
+        }, 3000);
+    </script>
+</body>
+</html>

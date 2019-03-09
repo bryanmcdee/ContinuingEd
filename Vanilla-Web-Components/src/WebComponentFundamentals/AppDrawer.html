@@ -1,0 +1,461 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>App Drawer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../libs/bootstrap-v3.3.7/css/bootstrap.min.css">
+    <script src="../libs/bootstrap-v3.3.7/js/bootstrap.min.js"></script>       
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"
+        crossorigin="anonymous">
+    </script>
+
+    <script>        
+        class AppDrawer extends HTMLElement{
+            static get observedAttributes() {
+                return ['disabled', 'open', 'close'];
+            }
+            
+            // A getter/setter for an open property
+            get open() {
+                return this.hasAttribute('open');
+            }
+
+            set open(val) {
+                if (val) {
+                    this.setAttribute('open', '');
+                } else {
+                    this.removeAttribute('open');
+                }
+                this.toggleDrawer();
+            }
+
+            // A getter/setter for a close property
+            get close() {
+                return this.hasAttribute('close');
+            }
+
+            set open(val) {
+                if (val) {
+                    this.setAttribute('close', '');
+                } else {
+                    this.removeAttribute('close');
+                }  
+                this.toggleDrawer();              
+            }
+
+            // A getter/setter for a disabled property
+            get disabled() {
+                return this.hasAttribute('disabled');
+            }
+
+            set disabled(val) {
+                if (val) {
+                    this.setAttribute('disabled', '');
+                } else {
+                    this.removeAttribute('disabled');
+                }
+            }
+
+            constructor() {
+                // If you define a constructor, always call super() first!
+                super();               
+
+                const shadowRoot = this.attachShadow({mode: 'open'});
+                    shadowRoot.innerHTML = `
+                    <style>
+                    .notesContainer .notesButton {
+                        position: relative;
+                        border-left: 1px solid #cccccc;
+                        height: 100%;
+                        line-height: 33px;
+                        padding: 0 10px 0 40px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        font-weight: 300;
+                    }
+
+                    .notesContainer .notesButton .icon-notes {
+                        position: absolute;
+                        left: 10px;
+                        top: 8px;
+                    }
+
+                    .notesContainer .notesButton .notesCount {
+                        border: 1px solid #cccccc;
+                        font-size: .9em;
+                        font-weight: normal;
+                        padding: 0 10px 1px 9px;
+                        margin-left: 10px;
+                        -moz-border-radius: 10px;
+                        -ms-border-radius: 10px;
+                        -o-border-radius: 10px;
+                        border-radius: 10px !important;
+                    }
+
+                    .notesContainer .notesButton.open {
+                        background: #3c3c3c;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+
+                    .notesContainer .notesButton.open .notesCount {
+                        border-color: #5d5d5d;
+                        background: #5d5d5d;
+                    }
+
+                    .notesContainer.open .notesLoadingOverlay {
+                        display: block;
+                    }
+
+                    .notesContainer.disabled .notesButton {
+                        opacity: .35;
+                        cursor: default;
+                    }
+
+                    .notesOverlay {
+                        /*display: none;*/
+                        position: absolute;
+                        z-index: 160;
+                        width: 475px;
+                        /*margin-left: -371px;*/
+                        background: #3c3c3c;
+                        color: #fff;
+                        -ms-word-wrap: normal;
+                        word-wrap: break-word;
+                    }
+
+                    .notesOverlay.inlineNotesOverlay {
+                        text-align: left;
+                        margin-left: 0;
+                    }
+
+                    .notesOverlay .notesOverlayHeader {
+                        padding: 7px 10px;
+                        font-size: 1.2em;
+                    }
+
+                    .notesOverlay .notesOverlayHeader h4 {
+                        float: left;
+                    }
+
+                    .notesOverlay .notesOverlayHeader .addNoteButton {
+                        display: inline-block;
+                        margin-top: 3px;
+                    }
+
+                    .notesOverlay .notesOverlayContent {
+                        background: #2a2a2a;
+                    }
+
+                    .notesOverlay .noteListContainer {
+                        height: 350px;
+                        overflow: auto;
+                    }
+
+                    .notesOverlay .notesLoadingOverlay {
+                        position: absolute;
+                        z-index: 2;
+                        width: 100%;
+                        height: 200px;
+                        background: #2a2a2a;
+                        text-align: center;
+                        padding-top: 140px;
+                        line-height: 30px;
+                    }
+
+                    .notesOverlay input[type="button"], .notesOverlay input[type="submit"], .notesOverlay input[type="reset"], .notesOverlay .blueButton {
+                        background: lightblue;
+                    }
+
+                    .noteExt {
+                        background: url('/Content/Images/eye_avatar.png') 16px 4px no-repeat;
+                    }
+
+                    .noteIntExt {
+                        background: url('/Content/Images/default_avatar_gray.png') 16px 4px no-repeat;
+                    }
+
+                    .noteList {
+                        padding: 20px 20px 20px 0;
+                    }
+
+                    .note {
+                        padding-left: 55px;
+                    }
+
+                    .note:last-child {
+                        padding-bottom: 20px;
+                    }
+
+                    .note.noteMouseOver {
+                        border-left: 4px solid;
+                        background: #212121;
+                    }
+
+                    .note .noteRoleTime {
+                        float: right;
+                    }
+
+                    .note .noteRole {
+                        float: left;
+                        color: #ababab;
+                        padding-right: 20px;
+                    }
+
+                    .note .noteTime {
+                        float: right;
+                        color: #ababab;
+                        font-size: .9em;
+                    }
+
+                    .note .noteText {
+                        color: #eeeeee;
+                        font-size: .95em;
+                        padding-top: 13px;
+                    }
+
+                    .note .replyLink {
+                        display: none;
+                    }
+
+                    .note .note {
+                        padding-right: 0px;
+                    }
+
+                    .note .noteControls {
+                        min-height: 25px;
+                    }
+
+                    .note .noteBody:hover .replyLink {
+                        display: block;
+                    }
+
+                    .notesForm {
+                        padding: 7px 8px 7px 8px;
+                    }
+
+                    .notesForm textarea {
+                        display: block;
+                        background: #1f1f1f;
+                        border: none;
+                        width: 100%;
+                        height: 65px;
+                        min-height: 65px;
+                        max-height: 300px;
+                        min-width: 100%;
+                        max-width: 100%;
+                        padding: 8px;
+                        margin-bottom: 5px;
+                        color: #fff;
+                        font-size: .95em;
+                        overflow: auto;
+                    }
+
+                    .notesForm .noteType {
+                        float: left;
+                        padding-top: 10px;
+                    }
+
+                    .notesForm .noteType input[type="checkbox"] {
+                        float: left;
+                        margin-left: 0px;
+                    }
+
+                    .notesForm .noteType label {
+                        float: right;
+                        padding-left: 2px;
+                    }
+
+                    .notesForm .noteFormControls input {
+                        float: right;
+                        margin-left: 6px;
+                    }
+
+                    .notesForm .noteInputControls input {
+                        margin-left: 3px;
+                    }
+
+                    .notesForm .noteInputControls {
+                        text-align: right;
+                    }
+
+                    .selectRemainingMenu {
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        z-index: 160;
+                        width: 225px;
+                        background: #3c3c3c;
+                        color: #fff;
+                        -ms-word-wrap: normal;
+                        word-wrap: break-word;
+                        text-align: left;
+                        cursor: default;
+                    }
+
+                    .selectRemainingMenu .selectRemainingHeader {
+                        font-size: 1.2em;
+                    }
+
+                    .selectRemainingMenu li {
+                        line-height: 25px;
+                        padding: 0 10px;
+                        cursor: pointer;
+                    }
+
+                    .selectRemainingMenu li:not(.selectRemainingHeader) {
+                        background: #2b2b2b;
+                    }
+
+                        .selectRemainingMenu li:not(.selectRemainingHeader):hover {
+                            background: lightblue;
+                        }
+
+                    .selectRemainingMenu li a {
+                        display: block;
+                    }    
+
+                    .hide-notes {
+                        display: none;
+                    }
+
+                    .show-notes {
+                        display: block;
+                    }
+                    </style>
+                    <div class="notesContainer">Notes</div>
+                    <div id="notes" class="notesOverlay hide-notes">
+                    <div class="notesOverlayHeader clear-fix">
+                        <h4>Notes</h4>
+                    </div>
+                    <div id="NotesOverlayContent" class="notesOverlayContent clear clear-fix">
+                        <div id="NotesLoadingOverlay" class="notesLoadingOverlay">
+                        </div>
+                        <div id="NoteListContainer" class="noteListContainer scrollBars lightScrollBar">
+                            <span class="ui-helper-hidden-accessible"><input type="text" title="Add your note text here." /></span>
+                            <script type="text/html" id="noteTemplate">
+                                <li class="note clear-fix showNote" >
+                                    <div data-bind="template: { name: 'noteBody' }" class="noteBody"></div>
+                                    <ul class="replyNoteList" data-bind="foreach: ReplyNote">
+                                            <div data-bind="template: { name: 'noteBody' }" class="noteBody"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            <\/script>
+                            <script type="text/html" id="noteBody">
+                                <span class="noteTitle" data-bind="text: UsernameText"></span>
+                                <div class="noteRoleTime">
+                                    <span class="noteRole" data-bind="text: UserRole"></span>
+                                    <span class="noteTime" data-bind="text: CreationDateText"></span>
+                                </div>
+                                <div class="noteText" data-bind="text: NoteText"></div>
+                                <div class="noteControls">
+                                    <div class="replyLink float-right clear-fix">
+                                    </div>
+                                </div>
+                                <div class="notesForm replyNoteForm noteForm">
+                                    <span class="field-validation-error">Note Text is required.</span>
+                                    <textarea name="NoteText" rows="3" placeholder="Add your note text here." title="Add your note text here."></textarea>
+                                    <div class="noteInputControls clear-fix">
+                                        <input type="button" value="Save" title="Clicking this button will Save the Note." data-bind="click: onSaveNoteClick" />
+                                        <input type="button" value="Cancel" title="Cancel adding this note." data-bind="click: cancelSave" />
+                                    </div>
+                                </div>
+                            <\/script>
+                        </div>
+                        <div class="notesForm noteForm">
+                            <textarea name="NoteText" rows="3" placeholder="Add your note text here." data-bind="value: $root.curNote().NoteText"
+                                title="Add your note text here."></textarea>
+                            <div class="noteInputControls clear-fix">
+                                <div class="noteType">
+                                    <input type="checkbox" data-bind="checked: $root.curNote().IsVisibleToManager" id="IsVisibleToManager" />
+                                    <label for="IsVisibleToManager">Show to Hiring Managers</label>
+                                </div>
+                                <input type="button" value="Save" title="Clicking this button will Save the Note." data-bind="click: $root.onSaveNoteClick" />
+                                <input type="button" value="Cancel" title="Cancel adding this note." data-bind="click: $root.cancelSave" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    `;
+
+                // Setup a click even listener on <app-drawer> itself.
+                this.addEventListener('click', e => {
+                    // Don't toggle the drawer if it's disabled.
+                    if (this.disabled) {
+                        return;
+                    }    
+                    this.toggleOpenCloseClass();
+                });                
+            }            
+
+            toggleOpenCloseClass() {                 
+                console.log('app-drawer clicked.');
+
+                const $notes = this.shadowRoot.querySelector('#notes');
+
+                let $isOpen = $notes.hasAttribute('open');                               
+                let $isClosed = $notes.hasAttribute('close');
+
+                if ($isOpen) {
+                    $notes.removeAttribute('open');
+                    $notes.setAttribute('close', '');    
+                    $notes.classList.remove("show-notes");
+                    $notes.classList.add("hide-notes");               
+                } else {
+                    $notes.removeAttribute('close');
+                    $notes.setAttribute('open', '');
+                    $notes.classList.remove("hide-notes");
+                    $notes.classList.add("show-notes"); 
+                }             
+            }
+
+            toggleDrawer() {   
+                console.log('Drawer Toggled!');              
+                const $notes = this.shadowRoot.querySelector('#notes');              
+            }
+
+            connectedCallback() {
+                // Called every time the element is inserted into the DOM
+            }
+
+            disconnectedCallback() {
+                // Called every time the element is removed from the DOM
+            }
+
+            attributeChangedCallback(attrName, oldVal, newVal) {
+                // Called when an observed attribute has been added, removed, updated, or replaced. 
+                // Also called for initial values when an element is created by the parser, or upgraded. 
+                // Note: only attributes listed in the observedAttributes property will receive this callback.
+
+                // TODO: React to the disabled attribute changing.
+                if (this.disabled) {
+
+                } else {
+
+                }
+
+                 // TODO: React to the open attribute changing.
+                 if (this.open) {
+
+                } else {
+
+                }
+            }
+        }
+        window.customElements.define('app-drawer', AppDrawer);
+    </script>    
+</head>
+<body>
+    <div class="container">
+        <div class="col-sm-12 text-center">
+            <app-drawer>Notes</app-drawer>
+        </div>
+        
+    </div> 
+</body>
+</html>
