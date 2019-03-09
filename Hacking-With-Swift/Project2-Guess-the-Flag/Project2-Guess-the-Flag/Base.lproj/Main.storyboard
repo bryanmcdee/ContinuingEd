@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="5w5-jZ-UtT">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="Project2_Guess_the_Flag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRx-oa-AVq">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" image="us">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnFlagTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Sqt-fT-csQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieT-5c-Sql">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" image="poland">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnFlagTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Tr4-gO-R0f"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cc3-lr-u30">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" backgroundImage="france">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnFlagTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="2ef-pN-Ed4"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="cc3-lr-u30" secondAttribute="centerX" id="0l7-SU-fMc"/>
+                            <constraint firstAttribute="centerX" secondItem="ieT-5c-Sql" secondAttribute="centerX" id="924-th-Oyy"/>
+                            <constraint firstItem="eRx-oa-AVq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="36" id="Dd7-1Q-eTQ"/>
+                            <constraint firstItem="cc3-lr-u30" firstAttribute="top" secondItem="ieT-5c-Sql" secondAttribute="bottom" constant="30" id="XOi-4R-TID"/>
+                            <constraint firstItem="ieT-5c-Sql" firstAttribute="top" secondItem="eRx-oa-AVq" secondAttribute="bottom" constant="30" id="eBA-aJ-USB"/>
+                            <constraint firstAttribute="centerX" secondItem="eRx-oa-AVq" secondAttribute="centerX" id="zh4-cI-hvA"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="eRx-oa-AVq"/>
+                                <exclude reference="ieT-5c-Sql"/>
+                                <exclude reference="cc3-lr-u30"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="Dd7-1Q-eTQ"/>
+                                <exclude reference="zh4-cI-hvA"/>
+                                <exclude reference="924-th-Oyy"/>
+                                <exclude reference="eBA-aJ-USB"/>
+                                <exclude reference="0l7-SU-fMc"/>
+                                <exclude reference="XOi-4R-TID"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="eRx-oa-AVq"/>
+                                <include reference="ieT-5c-Sql"/>
+                                <include reference="cc3-lr-u30"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="Dd7-1Q-eTQ"/>
+                                <include reference="zh4-cI-hvA"/>
+                                <include reference="924-th-Oyy"/>
+                                <include reference="eBA-aJ-USB"/>
+                                <include reference="0l7-SU-fMc"/>
+                                <include reference="XOi-4R-TID"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="DJH-a1-HFc"/>
+                    <connections>
+                        <outlet property="btnFlag2" destination="ieT-5c-Sql" id="GVO-CU-uzL"/>
+                        <outlet property="btnFlag3" destination="cc3-lr-u30" id="DJT-nh-04J"/>
+                        <outlet property="btnFlat1" destination="eRx-oa-AVq" id="qtg-M3-vDi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1297.5" y="305"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QzX-Vh-n7g">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5w5-jZ-UtT" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b6H-84-8rL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="7ZI-o3-gP0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2EQ-e3-cE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="514.5" y="305"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="france" width="200" height="100"/>
+        <image name="poland" width="200" height="100"/>
+        <image name="us" width="200" height="100"/>
+    </resources>
+</document>

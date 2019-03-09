@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="S0V-HL-LLw">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="Project19" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="0Hb-9a-faT">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="Snh-rc-u82"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0Hb-9a-faT" secondAttribute="trailing" id="1Fb-Su-T8f"/>
+                            <constraint firstItem="0Hb-9a-faT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="1SX-r7-5P4"/>
+                            <constraint firstItem="0Hb-9a-faT" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="ROJ-Ve-90l"/>
+                            <constraint firstItem="0Hb-9a-faT" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="s0G-LW-9vO"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="0Hb-9a-faT"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="1Fb-Su-T8f"/>
+                                <exclude reference="1SX-r7-5P4"/>
+                                <exclude reference="ROJ-Ve-90l"/>
+                                <exclude reference="s0G-LW-9vO"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="0Hb-9a-faT"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="1Fb-Su-T8f"/>
+                                <include reference="1SX-r7-5P4"/>
+                                <include reference="ROJ-Ve-90l"/>
+                                <include reference="s0G-LW-9vO"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="PRt-Dd-1zb"/>
+                    <connections>
+                        <outlet property="mapView" destination="0Hb-9a-faT" id="ajX-U5-xrR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1297.5" y="305"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iSp-cq-PaK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S0V-HL-LLw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cMe-Kx-Py6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="fyy-PG-B2P"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aEP-Yb-tow" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573" y="305"/>
+        </scene>
+    </scenes>
+</document>
