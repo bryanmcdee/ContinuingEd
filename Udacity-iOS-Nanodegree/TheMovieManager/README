@@ -1,0 +1,3 @@
+TheMovieManager is an app that uses The Movie Database API (https://www.themoviedb.org).
+This was a Udacity iOS Nanodegree app challenge. This app was partially completed by Udacity.
+You will need to supply an API key and have a The Movie DB username and password in order for the app to work.

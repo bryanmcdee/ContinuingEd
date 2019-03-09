@@ -1,0 +1,3 @@
+Flick Finder App challenge for the Udacity iOS NanoDegree.
+This app uses the Flickr API to retrieve images based on a search phrase or latitude or longitude.
+A Flickr API Key is needed for the app to work properly.
